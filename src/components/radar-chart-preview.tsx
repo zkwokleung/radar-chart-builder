@@ -1,29 +1,36 @@
-"use client"
+'use client';
 
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from "recharts"
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+} from 'recharts';
 
 interface RadarDataPoint {
-  label: string
-  value: number
+  label: string;
+  value: number;
 }
 
 interface RadarChartPreviewProps {
-  title: string
-  dataPoints: RadarDataPoint[]
-  backgroundColor: string
-  chartColor: string
-  textColor: string
-  gridColor: string
-  axisColor: string
-  titleFontSize: number
-  labelFontSize: number
-  showGrid: boolean
-  showAxis: boolean
-  chartOpacity: number
-  strokeWidth: number
-  showRadiusAxis: boolean
-  titleFontFamily: string
-  labelFontFamily: string
+  title: string;
+  dataPoints: RadarDataPoint[];
+  backgroundColor: string;
+  chartColor: string;
+  textColor: string;
+  gridColor: string;
+  axisColor: string;
+  titleFontSize: number;
+  labelFontSize: number;
+  showGrid: boolean;
+  showAxis: boolean;
+  chartOpacity: number;
+  strokeWidth: number;
+  showRadiusAxis: boolean;
+  titleFontFamily: string;
+  labelFontFamily: string;
 }
 
 export default function RadarChartPreview({
@@ -48,15 +55,15 @@ export default function RadarChartPreview({
     name: point.label,
     value: point.value,
     fullMark: 100,
-  }))
+  }));
 
   return (
     <div
       style={{ backgroundColor }}
-      className="w-full rounded-lg p-6 min-h-[400px] flex flex-col items-center justify-center"
+      className='flex min-h-[400px] w-full flex-col items-center justify-center rounded-lg p-6'
     >
       <h2
-        className="text-2xl font-bold mb-4 text-center"
+        className='mb-4 text-center text-2xl font-bold'
         style={{
           color: textColor,
           fontSize: `${titleFontSize}px`,
@@ -65,12 +72,12 @@ export default function RadarChartPreview({
       >
         {title}
       </h2>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width='100%' height={300}>
         <RadarChart data={data}>
           {showGrid && <PolarGrid stroke={gridColor} />}
           {showAxis && (
             <PolarAngleAxis
-              dataKey="name"
+              dataKey='name'
               stroke={axisColor}
               style={{
                 fontSize: `${labelFontSize}px`,
@@ -80,8 +87,8 @@ export default function RadarChartPreview({
           )}
           {showRadiusAxis && <PolarRadiusAxis stroke={axisColor} />}
           <Radar
-            name="Value"
-            dataKey="value"
+            name='Value'
+            dataKey='value'
             stroke={chartColor}
             fill={chartColor}
             fillOpacity={chartOpacity}
@@ -90,5 +97,5 @@ export default function RadarChartPreview({
         </RadarChart>
       </ResponsiveContainer>
     </div>
-  )
+  );
 }

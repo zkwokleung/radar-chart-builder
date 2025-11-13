@@ -375,7 +375,9 @@ export default function ConfigPage() {
                           min='1'
                           max='5'
                           value={strokeWidth}
-                          onChange={(e) => setStrokeWidth(Number(e.target.value))}
+                          onChange={(e) =>
+                            setStrokeWidth(Number(e.target.value))
+                          }
                           className='w-full cursor-pointer'
                         />
                       </div>
@@ -428,7 +430,9 @@ export default function ConfigPage() {
                             id='showRadiusAxis'
                             type='checkbox'
                             checked={showRadiusAxis}
-                            onChange={(e) => setShowRadiusAxis(e.target.checked)}
+                            onChange={(e) =>
+                              setShowRadiusAxis(e.target.checked)
+                            }
                             className='h-4 w-4 cursor-pointer'
                           />
                           <Label
@@ -439,9 +443,9 @@ export default function ConfigPage() {
                           </Label>
                         </div>
                       </div>
-                      <div className='space-y-4 rounded-md border border-border p-3'>
+                      <div className='border-border space-y-4 rounded-md border p-3'>
                         <div>
-                          <p className='text-foreground text-xs font-semibold uppercase tracking-wide'>
+                          <p className='text-foreground text-xs font-semibold tracking-wide uppercase'>
                             Stroke Colors
                           </p>
                           <p className='text-muted-foreground text-xs'>
@@ -461,12 +465,16 @@ export default function ConfigPage() {
                                 id='gridColor'
                                 type='color'
                                 value={gridColorHex}
-                                onChange={(e) => setGridColorHex(e.target.value)}
+                                onChange={(e) =>
+                                  setGridColorHex(e.target.value)
+                                }
                                 className='border-border h-10 w-12 cursor-pointer rounded border'
                               />
                               <Input
                                 value={gridColorHex}
-                                onChange={(e) => setGridColorHex(e.target.value)}
+                                onChange={(e) =>
+                                  setGridColorHex(e.target.value)
+                                }
                                 className='bg-input border-border text-foreground flex-1 text-sm'
                                 placeholder='#ffffff'
                               />
@@ -511,12 +519,16 @@ export default function ConfigPage() {
                                 id='axisColor'
                                 type='color'
                                 value={axisColorHex}
-                                onChange={(e) => setAxisColorHex(e.target.value)}
+                                onChange={(e) =>
+                                  setAxisColorHex(e.target.value)
+                                }
                                 className='border-border h-10 w-12 cursor-pointer rounded border'
                               />
                               <Input
                                 value={axisColorHex}
-                                onChange={(e) => setAxisColorHex(e.target.value)}
+                                onChange={(e) =>
+                                  setAxisColorHex(e.target.value)
+                                }
                                 className='bg-input border-border text-foreground flex-1 text-sm'
                                 placeholder='#ffffff'
                               />
@@ -609,7 +621,7 @@ export default function ConfigPage() {
                     </div>
                   </section>
 
-                  <section className='space-y-4 border-border border-t pt-4'>
+                  <section className='border-border space-y-4 border-t pt-4'>
                     <div className='flex items-center justify-between gap-4'>
                       <div>
                         <p className='text-foreground text-sm font-semibold'>
