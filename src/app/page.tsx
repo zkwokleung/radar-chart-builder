@@ -7,30 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Copy, Check } from 'lucide-react';
 import RadarChartPreview from '@/components/radar-chart-preview';
-
-interface RadarDataPoint {
-  label: string;
-  value: number;
-}
-
-interface ChartConfig {
-  title: string;
-  backgroundColor: string;
-  chartColor: string;
-  textColor: string;
-  gridColor: string;
-  axisColor: string;
-  dataPoints: RadarDataPoint[];
-  titleFontSize: number;
-  labelFontSize: number;
-  showGrid: boolean;
-  showAxis: boolean;
-  chartOpacity: number;
-  strokeWidth: number;
-  showRadiusAxis: boolean;
-  titleFontFamily: string;
-  labelFontFamily: string;
-}
+import type { ChartConfig, RadarDataPoint } from '@/types/chart-config';
 
 export default function ConfigPage() {
   const [title, setTitle] = useState('Stats');

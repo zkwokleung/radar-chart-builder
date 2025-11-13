@@ -1,43 +1,54 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import RadarChartWidget from '@/components/radar-chart-widget';
+import type { ChartConfig } from '@/types/chart-config';
 
-interface RadarDataPoint {
-  label: string;
-  value: number;
-}
-
-interface ChartConfig {
-  title: string;
-  backgroundColor: string;
-  chartColor: string;
-  dataPoints: RadarDataPoint[];
-}
+const defaultConfig: ChartConfig = {
+  title: 'Stats',
+  backgroundColor: '#1b1d24',
+  chartColor: '#d97706',
+  textColor: '#fef3c7',
+  gridColor: 'rgba(252, 211, 77, 0.2)',
+  axisColor: 'rgba(249, 115, 22, 0.7)',
+  dataPoints: [
+    { label: 'Strength', value: 80 },
+    { label: 'Dexterity', value: 70 },
+    { label: 'Constitution', value: 75 },
+    { label: 'Intelligence', value: 60 },
+    { label: 'Wisdom', value: 65 },
+    { label: 'Charisma', value: 85 },
+  ],
+  titleFontSize: 32,
+  labelFontSize: 14,
+  showGrid: true,
+  showAxis: true,
+  chartOpacity: 0.6,
+  strokeWidth: 2,
+  showRadiusAxis: true,
+  titleFontFamily: 'system-ui',
+  labelFontFamily: 'system-ui',
+};
 
 function ChartContent() {
   const searchParams = useSearchParams();
   const configParam = searchParams.get('config');
 
-  let config: ChartConfig = {
-    title: 'Radar Chart',
-    backgroundColor: '#0f172a',
-    chartColor: '#3b82f6',
-    dataPoints: [
-      { label: 'Metric 1', value: 80 },
-      { label: 'Metric 2', value: 70 },
-      { label: 'Metric 3', value: 85 },
-    ],
-  };
-
-  if (configParam) {
+  const config = useMemo(() => {
+    if (!configParam) return defaultConfig;
     try {
-      config = JSON.parse(atob(configParam));
+      const parsed = JSON.parse(atob(configParam)) as Partial<ChartConfig>;
+      return {
+        ...defaultConfig,
+        ...parsed,
+        dataPoints: parsed.dataPoints ?? defaultConfig.dataPoints,
+      };
     } catch (e) {
       console.error('Failed to parse config:', e);
+      return defaultConfig;
     }
-  }
+  }, [configParam]);
 
   return (
     <div
