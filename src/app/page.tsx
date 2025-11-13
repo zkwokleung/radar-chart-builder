@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -25,6 +25,8 @@ interface ChartConfig {
   labelFontSize: number;
   showGrid: boolean;
   showAxis: boolean;
+  chartOpacity: number;
+  strokeWidth: number;
   showRadiusAxis: boolean;
   titleFontFamily: string;
   labelFontFamily: string;
@@ -49,7 +51,6 @@ export default function ConfigPage() {
   const [showRadiusAxis, setShowRadiusAxis] = useState(true);
   const [chartOpacity, setChartOpacity] = useState(0.6);
   const [strokeWidth, setStrokeWidth] = useState(2);
-  const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [titleFontFamily, setTitleFontFamily] = useState('system-ui');
   const [labelFontFamily, setLabelFontFamily] = useState('system-ui');
@@ -59,8 +60,8 @@ export default function ConfigPage() {
   const [axisColorHex, setAxisColorHex] = useState('#ffffff');
   const [debouncedAxisOpacity, setDebouncedAxisOpacity] = useState(0.7);
 
-  const gridOpacityTimeoutRef = useRef<NodeJS.Timeout>();
-  const axisOpacityTimeoutRef = useRef<NodeJS.Timeout>();
+  const gridOpacityTimeoutRef = useRef<NodeJS.Timeout>(null);
+  const axisOpacityTimeoutRef = useRef<NodeJS.Timeout>(null);
 
   const hexToRgba = useCallback((hex: string, opacity: number): string => {
     const r = Number.parseInt(hex.slice(1, 3), 16);
@@ -71,6 +72,51 @@ export default function ConfigPage() {
 
   const gridColor = hexToRgba(gridColorHex, debouncedGridOpacity);
   const axisColor = hexToRgba(axisColorHex, debouncedAxisOpacity);
+
+  const chartConfig = useMemo<ChartConfig>(
+    () => ({
+      title,
+      backgroundColor,
+      chartColor,
+      textColor,
+      gridColor,
+      axisColor,
+      dataPoints,
+      titleFontSize,
+      labelFontSize,
+      showGrid,
+      showAxis,
+      chartOpacity,
+      strokeWidth,
+      showRadiusAxis,
+      titleFontFamily,
+      labelFontFamily,
+    }),
+    [
+      title,
+      backgroundColor,
+      chartColor,
+      textColor,
+      gridColor,
+      axisColor,
+      dataPoints,
+      titleFontSize,
+      labelFontSize,
+      showGrid,
+      showAxis,
+      chartOpacity,
+      strokeWidth,
+      showRadiusAxis,
+      titleFontFamily,
+      labelFontFamily,
+    ],
+  );
+
+  const shareUrl = useMemo(() => {
+    if (typeof window === 'undefined') return '';
+    const encoded = btoa(JSON.stringify(chartConfig));
+    return `${window.location.origin}/chart?config=${encoded}`;
+  }, [chartConfig]);
 
   const handleDataPointChange = (
     index: number,
@@ -94,30 +140,6 @@ export default function ConfigPage() {
     if (dataPoints.length > 2) {
       setDataPoints(dataPoints.filter((_, i) => i !== index));
     }
-  };
-
-  const generateShareUrl = () => {
-    const config: ChartConfig = {
-      title,
-      backgroundColor,
-      chartColor,
-      textColor,
-      gridColor,
-      axisColor,
-      dataPoints,
-      titleFontSize,
-      labelFontSize,
-      showGrid,
-      showAxis,
-      chartOpacity,
-      strokeWidth,
-      showRadiusAxis,
-      titleFontFamily,
-      labelFontFamily,
-    };
-    const encoded = btoa(JSON.stringify(config));
-    const url = `${window.location.origin}/chart?config=${encoded}`;
-    setShareUrl(url);
   };
 
   const copyToClipboard = () => {
@@ -692,14 +714,6 @@ export default function ConfigPage() {
                       ))}
                     </div>
                   </section>
-
-                  <Button
-                    onClick={generateShareUrl}
-                    className='bg-primary text-primary-foreground hover:bg-primary/90 w-full'
-                    size='lg'
-                  >
-                    Generate Share Link
-                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -739,49 +753,46 @@ export default function ConfigPage() {
                 </CardContent>
               </Card>
             </div>
-
-            {/* Embed Link Card - 40% height */}
-            {shareUrl && (
-              <div className='flex min-h-0 flex-1 basis-2/5 flex-col'>
-                <Card className='bg-card border-border flex h-full flex-col'>
-                  <CardHeader className='border-border shrink-0 border-b'>
-                    <CardTitle className='text-base md:text-lg'>
-                      Your Embed Link
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className='min-h-0 flex-1 overflow-y-auto'>
-                    <div className='space-y-2'>
-                      <Label className='text-foreground text-xs md:text-sm'>
-                        Share this link to embed the chart:
-                      </Label>
-                      <div className='flex items-center gap-2'>
-                        <Input
-                          readOnly
-                          value={shareUrl}
-                          className='bg-input border-border text-foreground text-xs'
-                        />
-                        <Button
-                          onClick={copyToClipboard}
-                          variant='outline'
-                          size='sm'
-                          className='border-border hover:bg-accent shrink-0 bg-transparent'
-                        >
-                          {copied ? (
-                            <Check className='h-4 w-4' />
-                          ) : (
-                            <Copy className='h-4 w-4' />
-                          )}
-                        </Button>
-                      </div>
+            {/* Embed Link Card */}
+            <div className='flex min-h-0 flex-1 basis-1/5 flex-col'>
+              <Card className='bg-card border-border flex h-full flex-col'>
+                <CardHeader className='border-border shrink-0 border-b'>
+                  <CardTitle className='text-base md:text-lg'>
+                    Your Embed Link
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className='min-h-0 flex-1 overflow-y-auto'>
+                  <div className='space-y-2'>
+                    <Label className='text-foreground text-xs md:text-sm'>
+                      Share this link to embed the chart:
+                    </Label>
+                    <div className='flex items-center gap-2'>
+                      <Input
+                        readOnly
+                        value={shareUrl}
+                        className='bg-input border-border text-foreground text-xs'
+                      />
+                      <Button
+                        onClick={copyToClipboard}
+                        variant='outline'
+                        size='sm'
+                        className='border-border hover:bg-accent shrink-0 bg-transparent'
+                      >
+                        {copied ? (
+                          <Check className='h-4 w-4' />
+                        ) : (
+                          <Copy className='h-4 w-4' />
+                        )}
+                      </Button>
                     </div>
-                    <p className='text-muted-foreground text-xs'>
-                      This link contains your chart configuration and can be
-                      shared or embedded anywhere.
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
+                  </div>
+                  <p className='text-muted-foreground text-xs'>
+                    This link contains your chart configuration and can be
+                    shared or embedded anywhere.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
