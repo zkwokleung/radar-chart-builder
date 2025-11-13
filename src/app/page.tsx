@@ -33,16 +33,17 @@ interface ChartConfig {
 }
 
 export default function ConfigPage() {
-  const [title, setTitle] = useState('Skills Assessment');
-  const [backgroundColor, setBackgroundColor] = useState('#0f172a');
-  const [chartColor, setChartColor] = useState('#3b82f6');
-  const [textColor, setTextColor] = useState('#ffffff');
+  const [title, setTitle] = useState('Stats');
+  const [backgroundColor, setBackgroundColor] = useState('#1b1d24');
+  const [chartColor, setChartColor] = useState('#d97706');
+  const [textColor, setTextColor] = useState('#fef3c7');
   const [dataPoints, setDataPoints] = useState<RadarDataPoint[]>([
-    { label: 'React', value: 90 },
-    { label: 'TypeScript', value: 85 },
-    { label: 'Node.js', value: 80 },
-    { label: 'Design', value: 75 },
-    { label: 'DevOps', value: 70 },
+    { label: 'Strength', value: 80 },
+    { label: 'Dexterity', value: 70 },
+    { label: 'Constitution', value: 75 },
+    { label: 'Intelligence', value: 60 },
+    { label: 'Wisdom', value: 65 },
+    { label: 'Charisma', value: 85 },
   ]);
   const [titleFontSize, setTitleFontSize] = useState(32);
   const [labelFontSize, setLabelFontSize] = useState(14);
@@ -55,9 +56,9 @@ export default function ConfigPage() {
   const [titleFontFamily, setTitleFontFamily] = useState('system-ui');
   const [labelFontFamily, setLabelFontFamily] = useState('system-ui');
 
-  const [gridColorHex, setGridColorHex] = useState('#ffffff');
+  const [gridColorHex, setGridColorHex] = useState('#fcd34d');
   const [debouncedGridOpacity, setDebouncedGridOpacity] = useState(0.2);
-  const [axisColorHex, setAxisColorHex] = useState('#ffffff');
+  const [axisColorHex, setAxisColorHex] = useState('#f97316');
   const [debouncedAxisOpacity, setDebouncedAxisOpacity] = useState(0.7);
 
   const gridOpacityTimeoutRef = useRef<NodeJS.Timeout>(null);
