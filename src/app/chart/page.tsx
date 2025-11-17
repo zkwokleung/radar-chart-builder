@@ -3,6 +3,7 @@
 import { Suspense, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import RadarChartWidget from '@/components/radar-chart-widget';
+import { decodeFromBase64 } from '@/lib/utils';
 import type { ChartConfig } from '@/types/chart-config';
 
 const defaultConfig: ChartConfig = {
@@ -38,7 +39,9 @@ function ChartContent() {
   const config = useMemo(() => {
     if (!configParam) return defaultConfig;
     try {
-      const parsed = JSON.parse(atob(configParam)) as Partial<ChartConfig>;
+      const parsed = JSON.parse(
+        decodeFromBase64(configParam),
+      ) as Partial<ChartConfig>;
       return {
         ...defaultConfig,
         ...parsed,

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Copy, Check } from 'lucide-react';
 import RadarChartPreview from '@/components/radar-chart-preview';
+import { encodeToBase64 } from '@/lib/utils';
 import type { ChartConfig, RadarDataPoint } from '@/types/chart-config';
 
 export default function ConfigPage() {
@@ -92,8 +93,8 @@ export default function ConfigPage() {
 
   const shareUrl = useMemo(() => {
     if (typeof window === 'undefined') return '';
-    const encoded = btoa(JSON.stringify(chartConfig));
-    return `${window.location.origin}/chart?config=${encoded}`;
+    const encoded = encodeToBase64(JSON.stringify(chartConfig));
+    return `${window.location.origin}/chart?config=${encodeURIComponent(encoded)}`;
   }, [chartConfig]);
 
   const handleDataPointChange = (
