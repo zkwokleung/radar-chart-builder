@@ -10,8 +10,8 @@
     <img src="https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
   </a>
   <a href="https://vercel.com/" title="Vercel">
-    <img src="https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white" alt="Vercel">
   </a>
+    <img src="https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white" alt="Vercel">
 </p>
 
 <p align="center">
@@ -34,6 +34,8 @@ https://radar-chart-builder.vercel.app/
 - Highly customizable radar charts with intuitive controls
 - Instant visual feedback while adjusting labels, values, and styles
 - Exportable widgets that embed cleanly into docs, dashboards, and note apps
+- Powered by [Recharts](https://github.com/recharts/recharts) for the chart
+  rendering engine
 
 ## Quick Start
 
