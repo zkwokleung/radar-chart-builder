@@ -23,7 +23,8 @@
 This project delivers a web-based builder for highly customizable, embeddable
 radar chart widgets. Built with Next.js, it lets you design chart visuals,
 refine labels and data, and then drop the generated widget anywhere HTML is
-supported—including tools like Notion, blogs, or documentation portals.
+supported—including tools like Notion, blogs, or documentation portals—so feel
+free to use the widget anywhere you already publish content.
 
 ## Live Demo
 
